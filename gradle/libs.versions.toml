@@ -1,7 +1,9 @@
 [versions]
-agp = "8.6.0"
-coreAmplify = "1.4.0"
-awsAuthCognitoAmplify = "1.4.0"
+agp = "8.6.1"
+coreAmplify = "2.24.0"
+awsAuthCognitoAmplify = "2.24.0"
+awsApiAmplify = "2.24.0"
+awsStorageS3Amplify = "2.24.0"
 desugar_jdk_libs = "2.1.3"
 kotlin = "2.0.21"
 coreKtx = "1.15.0"
@@ -17,7 +19,9 @@ navigationUiKtx = "2.8.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+aws-api = { module = "com.amplifyframework:aws-api", version.ref = "awsApiAmplify" }
 aws-auth-cognito = { module = "com.amplifyframework:aws-auth-cognito", version.ref = "awsAuthCognitoAmplify" }
+aws-storage-s3 = { module = "com.amplifyframework:aws-storage-s3", version.ref = "awsStorageS3Amplify" }
 core = { module = "com.amplifyframework:core", version.ref = "coreAmplify" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.planthealthmonitorapplication.databinding.ActivityMainBinding
 import com.example.planthealthmonitorapplication.databinding.ContentMainBinding
@@ -31,16 +32,29 @@ class MainActivity : AppCompatActivity() {
             Log.i(TAG, "isSignedIn changed : $isSignedIn")
             if (isSignedIn) {
                 binding.fabAuth.setImageResource(R.drawable.ic_baseline_lock_open)
+                Log.d(TAG, "Showing fabADD")
+                binding.fabAdd.show()
+                binding.fabAdd.animate().translationY(0.0F - 1.1F * binding.fabAuth.customSize)
             } else {
                 binding.fabAuth.setImageResource(R.drawable.ic_baseline_lock)
+                Log.d(TAG, "Hiding fabADD")
+                binding.fabAdd.hide()
+                binding.fabAdd.animate().translationY(0.0F)
             }
         })
+
+        binding.fabAdd.setOnClickListener {
+            startActivity(Intent(this, AddNoteActivity::class.java))
+        }
     }
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java", ReplaceWith(
+        "super.onActivityResult(requestCode, resultCode, data)",
+        "androidx.appcompat.app.AppCompatActivity"
+    )
+    )
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Backend.handleWebUISignInResponse(requestCode, resultCode, data)
     }
 
     // recycler view is the list of cells
@@ -53,6 +67,10 @@ class MainActivity : AppCompatActivity() {
             // let's create a RecyclerViewAdapter that manages the individual cells
             recyclerView.adapter = NoteRecyclerViewAdapter(notes)
         })
+
+        // add a touch gesture handler to manager the swipe to delete gesture
+        val itemTouchHelper = ItemTouchHelper(SwipeCallback(this))
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     // Sets up the floating action button (fabAuth) for authentication
